@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
-project(hi_equals_hi)
+project(its_raining_strings)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -15,7 +15,4 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2)
 
-add_executable(hello_test tests/hello_test.cpp src/hello.cpp)
-add_executable(main main.cpp src/hello.cpp)
-
-target_link_libraries(hello_test PRIVATE Catch2::Catch2WithMain)
+add_executable(main main.cpp src/raining.cpp)
