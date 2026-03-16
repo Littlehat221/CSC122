@@ -1,158 +1,159 @@
-#include <string>
-#include <cstdlib>
+#include "tictactoe.hpp"
 #include <iostream>
-#include <limits>
+#include <string>
+#include <cctype>
 
-// Your code goes here
-extern int taken[9] = {0,0,0,0,0,0,0,0,0};
-extern int X = 0;
-extern int O = 0;
-extern int grid[3][3] =
+TicTacToe::TicTacToe()
 {
-    {'1','2','3'},
-    {'4','5','6'},
-    {'7','8','9'}
-};
+    resetBoard();
+}
 
-void draw(int input, char who)
+void TicTacToe::resetBoard()
 {
-    //works at and not at start
-    if (input == 10) {
-        for (int num = 1; num < 9; num+=3)
-        {
-            std::cout<< num << ' ' << num+1 << ' ' << num+2 << '\n';
-        }
-        return;
-    }
-    //determing where
-    switch (input)
+    for (int i = 0; i < 9; i++)
     {
-        case 1:
-            grid[0][0] = who;
-            taken[0] = 1;
-            break;
-        case 2:
-            grid[0][1] = who;
-            taken[1] = 2;
-            break;
-        case 3:
-            grid[0][2] = who;
-            taken[2] = 3;
-            break;
-        case 4:
-            grid[1][0] = who;
-            taken[3] = 4;
-            break;
-        case 5:
-            grid[1][1] = who;
-            taken[4] = 5;
-            break;
-        case 6:
-            grid[1][2] = who;
-            taken[5] = 6;
-            break;
-        case 7:
-            grid[2][0] = who;
-            taken[6] = 7;
-            break;
-        case 8:
-            grid[2][1] = who;
-            taken[7] = 8;
-            break;
-        case 9:
-            grid[2][2] = who;
-            taken[8] = 9;
-            break;
-        default:
-            std::cout << "AN EXCEPTION OCCURED AT MEMORY ADDRESS" << &input << "TERMINATE TERMINAL NOW.\n";
-            exit(0);;
+        board[i] = '1' + i;
     }
-    //actually drawing now
+
+    whoPlays = 'X';
+}
+
+void TicTacToe::printBoard() const
+{
     std::cout << "\n";
-    for (int y = 0; y < 3; y++)
-    {
-        for (int x = 0; x < 3; x++)
-        {
-            std::cout << (char)grid[y][x] << ' ';
-        }
-        std::cout << "\n";
-    }
+    std::cout << "    " << board[0] << "  |  " << board[1] << "  |  " << board[2] << "\n";
+    std::cout << "  -----+-----+-----\n";
+    std::cout << "    " << board[3] << "  |  " << board[4] << "  |  " << board[5] << "\n";
+    std::cout << "  -----+-----+-----\n";
+    std::cout << "    " << board[6] << "  |  " << board[7] << "  |  " << board[8] << "\n\n";
 }
 
-void check(char who)
+bool TicTacToe::makeMove(int position)
 {
-    //there are 8 ways to win, so this covers all of that
-    //i'm forced to do if/else ladder to compute looks pretty bad.
-    if (grid[0][0] == who && grid[0][1] == who && grid[0][2] == who)
+    if (position < 1 || position > 9)
     {
-        std::cout << who << " wins!\n";
-        exit(0);
+        return false;
     }
-    else if (grid[1][0] == who && grid[1][1] == who && grid[1][2] == who)
+
+    int index = position - 1;
+
+    if (board[index] == 'X' || board[index] == 'O')
     {
-        std::cout << who << " wins!\n";
-        exit(0);
+        return false;
     }
-    else if (grid[2][0] == who && grid[2][1] == who && grid[2][2] == who)
-    {
-        std::cout << who << " wins!\n";
-        exit(0);
-    }
-    else if (grid[0][0] == who && grid[1][0] == who && grid[2][0] == who)
-    {
-        std::cout << who << " wins!\n";
-        exit(0);
-    }
-    else if (grid[0][1] == who && grid[1][1] == who && grid[2][1] == who)
-    {
-        std::cout << who << " wins!\n";
-        exit(0);
-    }
-    else if (grid[0][2] == who && grid[1][2] == who && grid[2][2] == who)
-    {
-        std::cout << who << " wins!\n";
-        exit(0);
-    }
-    else if (grid[0][0] == who && grid[1][1] == who && grid[2][2] == who)
-    {
-        std::cout << who << " wins!\n";
-        exit(0);
-    }
-    else if (grid[2][0] == who && grid[1][1] == who && grid[0][2] == who)
-    {
-        std::cout << who << " wins!\n";
-        exit(0);
-    }
+
+    board[index] = whoPlays;
+    return true;
 }
 
-void tiecheck(void)
+bool TicTacToe::checkWin() const
 {
-    int check = 0;
-    for (int x = 0; x < 8; x++)
+    int winPatterns[8][3] =
     {
-        if (taken[x] == 0)
+        {0,1,2},{3,4,5},{6,7,8},
+        {0,3,6},{1,4,7},{2,5,8},
+        {0,4,8},{2,4,6}
+    };
+
+    for (auto &pattern : winPatterns)
+    {
+        if (board[pattern[0]] == whoPlays && board[pattern[1]] == whoPlays && board[pattern[2]] == whoPlays)
         {
-            check++;
+            return true;
         }
     }
-    if (check == 0)
+
+    return false;
+}
+
+bool TicTacToe::checkDraw() const
+{
+    for (int i = 0; i < 9; i++)
     {
-        std::cout << "Tie, as always.\n";
-        exit(0);
+        if (board[i] != 'X' && board[i] != 'O')
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int TicTacToe::getMove()
+{
+    std::string input;
+
+    while (true)
+    {
+        std::cout << "What is your move? ";
+        std::getline(std::cin, input);
+
+        if (input.empty())
+        {
+            std::cout << "\nThat is not a valid move! Try again.\n\n";
+            continue;
+        }
+
+        for (char c : input)
+        {
+            if (!isdigit(c))
+            {
+                std::cout << "\nThat is not a valid move! Try again.\n\n";
+                input = "";
+                break;
+            }
+        }
+
+        if (input.empty())
+        {
+            continue;
+        }
+
+        int move = std::stoi(input);
+
+        if (!makeMove(move))
+        {
+            std::cout << "\nThat is not a valid move! Try again.\n\n";
+            continue;
+        }
+
+        return move;
     }
 }
-int oops(int lower, int upper, std::string prompt, std::string error) {
-    int number;
 
-    std::cout << prompt << std::endl;
+void TicTacToe::switchPlayer()
+{
+    if (whoPlays == 'X')
+        whoPlays = 'O';
+    else
+        whoPlays = 'X';
+}
 
-    while (!(std::cin >> number) || number < lower || number > upper || number == taken[0] || number == taken[1] || number == taken[2] || number == taken[3] || number == taken[4] || number == taken[5] || number == taken[6] || number == taken[7] || number == taken[8]) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+void TicTacToe::playGame()
+{
+    bool gameOver = false;
 
-        std::cout << error << std::endl;
-        std::cout << prompt << std::endl;
+    while (!gameOver)
+    {
+        printBoard();
+
+        getMove();
+
+        if (checkWin())
+        {
+            printBoard();
+            std::cout << "Player " << whoPlays << " wins!\n";
+            gameOver = true;
+        }
+        else if (checkDraw())
+        {
+            printBoard();
+            std::cout << "The game is a draw!\n";
+            gameOver = true;
+        }
+        else
+        {
+            switchPlayer();
+        }
     }
-
-    return number;
 }

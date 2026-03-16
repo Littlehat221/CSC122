@@ -4,29 +4,40 @@
 
 #include "src/tictactoe.hpp"
 
-int main(void)
+int main()
 {
-    std::cout<< "Welcome to Tic-Tac_Toe!\n";
-    //draws example board
-    draw(10,'e');
-    while (1)
+    std::cout << "Welcome to Tic-Tac-Toe!\n";
+
+    bool playAgain = true;
+
+    while (playAgain)
     {
-        X = 0;
-        O = 0;
-        //gets first guy
+        TicTacToe game;
+        game.playGame();
 
-        X = oops(1,9,"X's move: ", "That is not a valid move! Try again.");
+        std::string response;
 
-        draw(X, 'X');
-        tiecheck();
-        check('X');
+        while (true)
+        {
+            std::cout << "\nWould you like to play again (yes/no)? ";
+            std::getline(std::cin, response);
 
-        //gets second guy
-
-        O = oops(1,9,"O's move: ", "That is not a valid move! Try again.");
-
-        draw(O, 'O');
-        tiecheck();
-        check('O');
+            if (response == "yes")
+            {
+                playAgain = true;
+                break;
+            }
+            else if (response == "no")
+            {
+                playAgain = false;
+                break;
+            }
+            else
+            {
+                std::cout << "\nThat is not a valid entry!\n";
+            }
+        }
     }
+
+    std::cout << "\nGoodbye!";
 }

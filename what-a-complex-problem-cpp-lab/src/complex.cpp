@@ -38,3 +38,22 @@ float ComplexNumber::real() const {
 float ComplexNumber::imaginary() const {
     return imaginaryNumber;
 }
+float ComplexNumber::phase() const {
+    return std::atan2(imaginaryNumber, realNumber);
+}
+
+// New method: multiplication
+ComplexNumber ComplexNumber::multiplication(ComplexNumber other) const {
+    float real = realNumber * other.realNumber - imaginaryNumber * other.imaginaryNumber;
+    float imag = realNumber * other.imaginaryNumber + imaginaryNumber * other.realNumber;
+    return ComplexNumber(real, imag);
+}
+
+// New method: division
+ComplexNumber ComplexNumber::division(ComplexNumber other) const {
+    float denominator = other.realNumber * other.realNumber + other.imaginaryNumber * other.imaginaryNumber;
+    // Note: division by zero will result in NaN/infinity – not handled here.
+    float real = (realNumber * other.realNumber + imaginaryNumber * other.imaginaryNumber) / denominator;
+    float imag = (imaginaryNumber * other.realNumber - realNumber * other.imaginaryNumber) / denominator;
+    return ComplexNumber(real, imag);
+}

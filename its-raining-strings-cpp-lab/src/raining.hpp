@@ -1,5 +1,5 @@
 #pragma once
 
-#include <string>
+#include <vector>
 
-void display(std::vector<std::string> current);
+void display(const std::vector<char*>& current);
