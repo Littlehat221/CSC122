@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <cctype>
+#include <cstdlib>
 
 TicTacToe::TicTacToe()
 {
@@ -16,6 +17,8 @@ void TicTacToe::resetBoard()
     }
 
     whoPlays = 'X';
+    xIsComputer = false;
+    oIsComputer = false;
 }
 
 void TicTacToe::printBoard() const
@@ -94,18 +97,19 @@ int TicTacToe::getMove()
             continue;
         }
 
-        for (char c : input)
+        bool allDigits = true;
+        for (int i = 0; i < static_cast<int>(input.length()); i++)
         {
-            if (!isdigit(c))
+            if (!std::isdigit(static_cast<unsigned char>(input[i])))
             {
-                std::cout << "\nThat is not a valid move! Try again.\n\n";
-                input = "";
+                allDigits = false;
                 break;
             }
         }
 
-        if (input.empty())
+        if (!allDigits)
         {
+            std::cout << "\nThat is not a valid move! Try again.\n\n";
             continue;
         }
 
@@ -131,13 +135,22 @@ void TicTacToe::switchPlayer()
 
 void TicTacToe::playGame()
 {
+    changeGameMode();
+
     bool gameOver = false;
 
     while (!gameOver)
     {
         printBoard();
 
-        getMove();
+        if (isComputerTurn())
+        {
+            getCompuerMove();
+        }
+        else
+        {
+            getMove();
+        }
 
         if (checkWin())
         {
@@ -156,4 +169,80 @@ void TicTacToe::playGame()
             switchPlayer();
         }
     }
+}
+bool TicTacToe::isComputerTurn() {
+    if (whoPlays == 'X')
+    {
+        return xIsComputer;
+    }
+
+    return oIsComputer;
+}
+bool TicTacToe::isOpenSpot(int position) {
+    if (position < 1 || position > 9)
+    {
+        return false;
+    }
+
+    int index = position - 1;
+    return board[index] != 'X' && board[index] != 'O';
+}
+void TicTacToe::changeGameMode() {
+    {
+        std::string input;
+
+        while (true)
+        {
+            std::cout << "\nWhat kind of game would you like to play?\n\n";
+            std::cout << "1. Human vs. Human\n";
+            std::cout << "2. Human vs. Computer\n";
+            std::cout << "3. Computer vs. Human\n\n";
+            std::cout << "What is your selection? ";
+            std::getline(std::cin, input);
+
+            if (input == "1")
+            {
+                xIsComputer = false;
+                oIsComputer = false;
+                std::cout << "\nGreat! Player X will go first.\n";
+                return;
+            }
+            else if (input == "2")
+            {
+                xIsComputer = false;
+                oIsComputer = true;
+                std::cout << "\nGreat! The computer will go second.\n";
+                return;
+            }
+            else if (input == "3")
+            {
+                xIsComputer = true;
+                oIsComputer = false;
+                std::cout << "\nGreat! The computer will go first.\n";
+                return;
+            }
+            else
+            {
+                std::cout << "\nPlease choose 1 2 or 3.\n";
+            }
+        }
+    }
+}
+int TicTacToe::getCompuerMove() {
+        int openSpots[9];
+        int openCount = 0;
+
+        for (int position = 1; position <= 9; position++)
+        {
+            if (isOpenSpot(position))
+            {
+                openSpots[openCount] = position;
+                openCount++;
+            }
+        }
+
+        int randomIndex = std::rand() % openCount;
+        int move = openSpots[randomIndex];
+        makeMove(move);
+        return move;
 }

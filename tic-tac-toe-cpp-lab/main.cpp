@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <ctime>
 
 #include "src/tictactoe.hpp"
 
 int main()
 {
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
     std::cout << "Welcome to Tic-Tac-Toe!\n";
 
     bool playAgain = true;

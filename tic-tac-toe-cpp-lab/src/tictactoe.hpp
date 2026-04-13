@@ -5,6 +5,8 @@ class TicTacToe
 private:
     char board[9];
     char whoPlays;
+    bool xIsComputer;
+    bool oIsComputer;
 
 public:
     TicTacToe();
@@ -17,4 +19,9 @@ public:
     int getMove();
     void switchPlayer();
     void playGame();
+    bool isComputerTurn();
+    bool isOpenSpot(int position);
+    void changeGameMode();
+    int getCompuerMove();
+
 };

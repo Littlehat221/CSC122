@@ -12,7 +12,7 @@ int main () {
     gradebook.add_assignment("Quiz 1", 100);
     gradebook.add_assignment("Lab 1", 50);
 
-    gradebook.enter_grade("Sam Sammerson", "Quiz 1", 95);
+    gradebook.enter_grade("Sfam Sammerson", "Quiz 1", 95);
     gradebook.enter_grade("Bob Bobberson", "Quiz 1", 85);
     gradebook.enter_grade("Jess Jesserson", "Lab 1", 49);
     gradebook.enter_grade("Jess Jesserson", "Quiz 1", 93);
