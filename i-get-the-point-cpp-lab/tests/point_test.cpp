@@ -30,7 +30,7 @@ TEST_CASE("invalid  throws") {
     REQUIRE_THROWS(p['z']);
 }
 
-TEST_CASE("<<"") {
+TEST_CASE("<<") {
     Point p(3.2, 9.8);
 
     std::ostringstream oss;
