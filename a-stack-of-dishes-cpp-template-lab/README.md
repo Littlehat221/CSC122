@@ -1,4 +1,4 @@
-# Links in a Chain (C++)
+# A Stack of Dishes (C++)
 
 You can find the instructions for this lab at [More Than Equations][more-than-equations]. Create a new repository on GitHub to house your code. Be sure to make the repository public so that I can view and grade it.
 
@@ -33,4 +33,4 @@ Benchmarking is provided with Catch2. You can write benchmarking assertions alon
 
 [catch2]: https://github.com/catchorg/Catch2
 [cmake]: https://cmake.org/
-[more-than-equations]: https://morethanequations.com/Computer-Science/Labs/Links-in-a-Chain
+[more-than-equations]: https://morethanequations.com/Computer-Science/Labs/A-Stack-of-Dishes
