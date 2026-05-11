@@ -44,9 +44,14 @@ bool TicTacToe::makeMove(int position)
     {
         return false;
     }
-
-    board[index] = whoPlays;
-    return true;
+    if (isTrap == true && position == trapCell) {
+        std::cout << "\nOh no! " << whoPlays << " set off the trap! " << whoPlays << " loses their turn.\n";
+        return true;
+    }
+    else {
+        board[index] = whoPlays;
+        return true;
+    }
 }
 
 bool TicTacToe::checkWin() const
@@ -75,10 +80,11 @@ bool TicTacToe::checkDraw() const
     {
         if (board[i] != 'X' && board[i] != 'O')
         {
-            return false;
+            if (isTrap == false || (isTrap == true && (board[i] - '0') != trapCell)) {
+                return false;
+            }
         }
     }
-
     return true;
 }
 
@@ -141,7 +147,9 @@ void TicTacToe::playGame()
 
     while (!gameOver)
     {
-        printBoard();
+        if (isComputerTurn() == false) {
+            printBoard();
+        }
 
         if (isComputerTurn())
         {
@@ -205,26 +213,45 @@ void TicTacToe::changeGameMode() {
                 xIsComputer = false;
                 oIsComputer = false;
                 std::cout << "\nGreat! Player X will go first.\n";
-                return;
             }
             else if (input == "2")
             {
                 xIsComputer = false;
                 oIsComputer = true;
                 std::cout << "\nGreat! The computer will go second.\n";
-                return;
             }
             else if (input == "3")
             {
                 xIsComputer = true;
                 oIsComputer = false;
                 std::cout << "\nGreat! The computer will go first.\n";
-                return;
             }
             else
             {
                 std::cout << "\nPlease choose 1 2 or 3.\n";
             }
+            while (true) {
+                std::cout << "\nWould you like to include a trap cell in your game?\n\n";
+                std::cout << "1. Yes\n";
+                std::cout << "2. No\n\n";
+                std::cout << "What is your selection? ";
+                std::getline(std::cin, input);
+                if (input == "1") {
+                    std::cout << "\nGreat! A trap has been hidden on the board.\n\n";
+                    isTrap = true;
+                    trapCell = 1 + std::rand() % 10;
+                    return;
+                }
+                else if (input == "2") {
+                    std::cout << "\nThis game does not have a trap hidden on the board.\n\n";
+                    isTrap = false;
+                    return;
+                }
+                else {
+                    std::cout << "\nPlease choose 1 2 or 3.\n";
+                }
+            }
+
         }
     }
 }

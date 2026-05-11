@@ -1,0 +1,20 @@
+Case 1: No third argument
+What does the expression return when you print it out to the console?
+0,1,2,3,4,5,6,7,8,9
+Does the expression change the original array?
+Yes
+Case 2: The greater and less functions built into C++
+What does the expression return when you print it out to the console?
+9,8,7,6,5,4,3,2,1,0 for greater, 0,1,2,3,4,5,6,7,8,9 for less
+Does the expression change the original array?
+Yes
+Case 3: A lambda comparing two integer arguments with cases for greater than and less than
+What does the expression return when you print it out to the console?
+9,8,7,6,5,4,3,2,1,0 for [](int a, int b) { return a > b; }, 0,1,2,3,4,5,6,7,8,9 for [](int a, int b) { return a < b; }
+Does the expression change the original array?
+Yes
+Case 4: A custom struct comparing two integer arguments with cases for greater than and less than
+What does the expression return when you print it out to the console?
+0,1,2,3,4,5,6,7,8,9 for custom_less, 9,8,7,6,5,4,3,2,1,0 for custom_greater
+Does the expression change the original array?
+Yes

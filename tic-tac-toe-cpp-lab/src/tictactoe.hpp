@@ -7,6 +7,8 @@ private:
     char whoPlays;
     bool xIsComputer;
     bool oIsComputer;
+    bool isTrap;
+    int trapCell;
 
 public:
     TicTacToe();
