@@ -79,3 +79,35 @@ TEST_CASE("Draw condition is detected")
 
     REQUIRE(game.checkDraw() == true);
 }
+
+TEST_CASE("Board reset reopens all spaces")
+{
+    TicTacToe game;
+
+    game.makeMove(1);
+    game.makeMove(2);
+
+    game.resetBoard();
+
+    for (int i = 1; i <= 9; i++)
+    {
+        REQUIRE(game.isOpenSpot(i) == true);
+    }
+}
+TEST_CASE("Computer turn detection works")
+{
+    TicTacToe game;
+
+    REQUIRE(game.isComputerTurn() == false);
+}
+
+TEST_CASE("Computer move selects a valid open space")
+{
+    TicTacToe game;
+
+    int move = game.getCompuerMove();
+
+    REQUIRE(move >= 1);
+    REQUIRE(move <= 9);
+    REQUIRE(game.isOpenSpot(move) == false);
+}

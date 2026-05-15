@@ -239,7 +239,7 @@ void TicTacToe::changeGameMode() {
                 if (input == "1") {
                     std::cout << "\nGreat! A trap has been hidden on the board.\n\n";
                     isTrap = true;
-                    trapCell = 1 + std::rand() % 10;
+                    trapCell = std::rand() % 10;
                     return;
                 }
                 else if (input == "2") {
